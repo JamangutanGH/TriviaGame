@@ -1,77 +1,110 @@
 $(document).ready(function () {
-    /*You'll create a trivia form with multiple choice or true/false options (your choice).
-The player will have a limited amount of time to finish the quiz. 
-The game ends when the time runs out. The page will reveal the number of questions that players answer correctly and incorrectly.
-Don't let the player pick more than one answer per question.
-Don't forget to include a countdown timer.*/
 
     //targeting the html span in which the timer will be displayed
     var timerSpan = $("#timerSpan");
+
+    var winSpan = $("#winSpan");
+    var lossSpan = $("#lossSpan");
+
     //targeting the html span that the question is to be displayed
     var questionSpan = $("#questionSpan");
+
     //the starting value of the timer
     timerSpan = 30;
 
-    //generate a timer condition
-    // execute the countdown function 
+
+
+    //record wins and loses
+    //creating lossCounter and setting its value to 0
+    var lossCounter = 0;
+
+    //setting the winCounter at 0
+    var winCounter = 0;
+
+    // setting a repeating function and passing its current state at 1 second interval 
+    var breakInterval = setInterval(countDown, 1000);
+
+    //execute the countdown function 
     function countDown() {
-        console.log();
+
         //set time and decuction
         timerSpan--;
         //target displays html element and updates its value
-        $("#timerSpan").html(timerSpan);
+        $("#timerSpan").text(timerSpan);
 
         //setting a stop to the interval via an if conditional
         if (timerSpan === 0) {
             //stop the counter
-            clearInterval(timerSpan);
+            console.log("breakInterval ID = ", breakInterval);
+            //break interval for function countDown 
+            clearInterval(breakInterval);
             //trigger loss condition
+            alert("Time is up, check your results below!");
+
         }
 
     }
 
-    // setting a repeating function and passing its current state at 1 second interval 
-    setInterval(countDown, 100);
+    // run countDown() with a varibale that can be cleared upon conditional
+    breakInterval;
 
     //populate the layout to show a question
     //establishing a question and the means to view it   
     var question = $("#questionSpan");
 
-    //generate questions and answers
-    //an array to store questions
-    var questionArray = [
-        "Where was the Statue of Liberty originally inteded to go?",
-        //Egypt!, Russia, Spain, England
-        "How long do elephants carry their pregnancies?",
-        //1 year, 1.5 years, 2 years!, 2.5 years
-        "Flowers grow faster if they are exposed to what?",
-        //Movement, Music!, Moonlight, Television
-        "The largest snail in the world is how big?",
-        //Over 90 cm!, Over 100 cm, Over 80 cm, Over 60 cm
-        "Before the invention of the eraser what was used to remove pencil?",
-        //Bread!, Water, Wool, Lard
-        "What is a group of Ferrets called?",
-        //Business!, Troop, Gang, Pack
-        "Where is the oldest bookshop in the world?",
-        //Portugal!, England, Egypt, Italy
-        "What are baby bunnies called?",
-        //Kittens!, Pups, Buds, Chicks
-        "The Beatles' first band name was?",
-        //The Quarrymen!, Johnny and the Moondogs, The Bandits, The Pixies
-        "Nintendo was originally what kind of company?"
-        //Trading Card!, Comic Book, Clothing, Music
-    ]
+    //setting the function for radioClick() to record win/loss
+    var radioClickF = function () {
+        console.log("I've been activated");
+        lossCounter++;
+        console.log(lossCounter);
+        //setting lossCounter to be displayed in the lossSpan as text
+        $("#lossSpan").html(lossCounter);
+    };
 
-    //answer buttons with display
-    var ansBtn1 = $("#answerSpan1");
-    var ansBtn2 = $("#answerSpan2");
-    var ansBtn3 = $("#answerSpan3");
-    var ansBtn4 = $("#answerSpan4");
+    var radioClickT = function () {
+        console.log("I've been activated");
+        winCounter++;
+        console.log(winCounter);
+        //setting lossCounter to be displayed in the lossSpan as text
+        $("#winSpan").text(winCounter);
 
-    //onlick event to select a a single answer
+    };
 
-    //generate a win condition 
+    //onlick event to select record right/wrong guesses
+    $("input:radio[value=incorrect]").on("click", radioClickF);
+    $("input:radio[value=correct]").on("click", radioClickT);
 
-    //record wins and loses
+
+
+
+    //create a hidden display that unhides upon timer exhaustion
+
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
 
 });
